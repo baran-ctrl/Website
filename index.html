@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bahamut — Futuristic Game Studio</title>
+  <meta name="description" content="Fast paced game maker" />
+  <style>
+    :root{
+      --bg0:#000; --bg1:#05070c; --bg2:#0b1020; --glass:rgba(255,255,255,.06);
+      --txt:#fff; --muted:rgba(255,255,255,.65); --muted2:rgba(255,255,255,.45);
+      --cyan:#00e6ff; --mag:#ff2fb3; --org:#ff8a00; --line:#101521;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial; color:var(--txt); background:linear-gradient(180deg,var(--bg2),var(--bg1) 60%,var(--bg0)) fixed;}
+    a{color:inherit; text-decoration:none}
+    .container{width:100%; max-width:1200px; margin:0 auto; padding:0 16px}
+    .blur{backdrop-filter:saturate(120%) blur(12px)}
+    .glass{background:var(--glass); border:1px solid rgba(255,255,255,.1); border-radius:16px}
+    .btn{position:relative; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; border-radius:16px; font-weight:600; overflow:hidden}
+    .btn > span.bg{position:absolute; inset:0; opacity:.85; background:linear-gradient(90deg,var(--cyan),var(--mag),var(--org));}
+    .btn > span.in{position:absolute; inset:2px; border-radius:14px; background:rgba(0,0,0,.55)}
+    .btn > span.tx{position:relative}
+    .grid{display:grid; gap:24px}
+    .g-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .g-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    @media (max-width:1024px){.g-4{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media (max-width:768px){.g-3,.g-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:520px){.g-3,.g-4{grid-template-columns:1fr}}
+
+    /* Sticky nav */
+    .nav{position:fixed; inset-inline:0; top:0; z-index:40}
+    .nav-inner{margin-top:16px; display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-radius:16px}
+    .brand{font-weight:800; letter-spacing:.22em; font-size:12px; opacity:.9}
+    .nav-links{display:flex; gap:24px}
+    .nav-links a{margin:0 10px; position:relative; font-size:14px; color:rgba(255,255,255,.8)}
+    .nav-links a:hover{color:var(--txt)}
+    .nav-links a::after{content:""; position:absolute; left:0; right:auto; bottom:-6px; height:1px; width:0; background:linear-gradient(90deg,var(--cyan),var(--mag),var(--org)); transition:width .25s}
+    .nav-links a:hover::after{width:100%}
+
+    /* Sections */
+    section{position:relative; padding:80px 0}
+    .hero{min-height:92vh; display:grid; place-items:center; overflow:hidden}
+    /* New neutral futuristic key art + filters */
+    .hero .keyart{position:absolute; inset:0;
+      background:url('https://images.unsplash.com/photo-1509644851169-2acc08aa25b8?q=80&w=1920&auto=format&fit=crop') center 35%/cover no-repeat;
+      filter:brightness(.38) saturate(1.05) blur(1.5px);
+    }
+    .hero .fade{position:absolute; inset:0;
+       background: linear-gradient(180deg, rgba(0,0,0,.0),
+                                       rgba(0,0,0,.0) 90%,
+                                       rgba(0,0,0,.0));
+      mix-blend-mode:multiply;
+    }
+    .neon-bg{position:absolute; inset:0; background:
+      radial-gradient(1200px 600px at 20% -10%, rgba(0,230,255,.18), transparent),
+      radial-gradient(1000px 600px at 80% -10%, rgba(255,47,179,.16), transparent);
+      z-index:-1}
+    h1{font-size:clamp(40px,6vw,84px); margin:0; text-align:center; text-shadow:0 0 26px rgba(0,230,255,.4)}
+    p.lead{max-width:720px; margin:16px auto 0; color:var(--muted)}
+    .hero-cta{margin-top:32px; display:flex; flex-wrap:wrap; gap:16px; justify-content:center}
+
+    /* Fine line divider pattern */
+    .fine-lines{display:none} /* hide placeholders causing banding */
+
+    /* Cards */
+    .cards{margin-top:40px}
+    .card{position:relative; border-radius:18px; overflow:hidden; transform-style:preserve-3d; transition:transform .2s ease, box-shadow .2s ease}
+    .card:before{content:""; position:absolute; inset:0; border-radius:18px; border:1px solid rgba(255,255,255,.1); pointer-events:none}
+    .card .media{position:relative; aspect-ratio:25/12; overflow:hidden}
+    .card img{width:100%; height:100%; object-fit:cover; opacity:.9; display:block}
+    .card .grad{position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.75),rgba(0,0,0,.2),transparent)}
+    .card .tags{position:absolute; top:10px; right:10px; display:flex; gap:8px}
+    .tag{font-size:10px; text-transform:uppercase; letter-spacing:.1em; padding:4px 8px; border-radius:999px; background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.8)}
+    .card .body{padding:16px}
+    .card h3{margin:0; font-size:18px; text-shadow:0 0 8px rgba(0,230,255,.35)}
+    .card .actions{margin-top:12px; display:flex; gap:10px}
+    .btn-outline{padding:8px 12px; border-radius:12px; font-size:14px; border:1px solid rgba(0,230,255,.4); color:#baf7ff; background:rgba(0,230,255,.08)}
+    .btn-outline.pink{border-color:rgba(255,47,179,.4); color:#ffd0ef; background:rgba(255,47,179,.08)}
+    .card:hover{box-shadow:0 14px 44px rgba(0,230,255,.18), 0 0 0 1px rgba(255,255,255,.06)}
+
+    /* Presskit block */
+    .presskit .box{padding:28px}
+
+    /* Contact */
+    .socials{display:grid; gap:16px; grid-template-columns:repeat(2,1fr)}
+    @media (max-width:640px){.socials{grid-template-columns:1fr}}
+    .social{display:flex; align-items:center; justify-content:center; gap:12px; padding:22px; border-radius:16px}
+    .icon{width:20px; height:20px; display:inline-block}
+
+    /* Particle canvas */
+    #particles{position:fixed; inset:0; z-index:-2}
+
+    /* Section headings */
+    .h2{font-size:28px; font-weight:700; text-align:center}
+    .muted{color:var(--muted)}
+
+    /* Helper */
+    .hidden-sm{display:block}
+    @media (max-width:768px){.hidden-sm{display:none}}
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+
+  <!-- Neon background wash -->
+  <div class="neon-bg"></div>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container">
+      <nav class="nav-inner glass blur">
+        <a class="brand" href="#home">BAHAMUT GAMES</a>
+        <div class="nav-links hidden-sm">
+          <a href="#home">Home</a>
+          <a href="#games">Games</a>
+          <a href="#press">Presskit</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <a class="btn" href="#press" aria-label="Presskit">
+          <span class="bg"></span><span class="in"></span><span class="tx">Presskit</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="keyart" aria-hidden="true"></div>
+    <div class="fade" aria-hidden="true"></div>
+    <div class="container" style="text-align:center; padding-top:120px">
+      <h1>Bahamut Games</h1>
+      <p class="lead">Cinematic simulation and management games designed for immersion and clarity.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#games"><span class="bg"></span><span class="in"></span><span class="tx">See Games</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAMES -->
+  <section id="games">
+    <div class="container">
+      <h2 class="h2">Featured Games</h2>
+      <p class="muted" style="text-align:center; margin-top:8px">High‑end, performant, and player‑first experiences.</p>
+      <div class="grid g-4 cards" id="gameGrid"></div>
+    </div>
+  </section>
+
+  <!-- PRESSKIT -->
+  <section id="press" class="presskit">
+    <div class="container">
+      <div class="glass blur box">
+        <h3 style="margin:0 0 8px 0; font-size:24px">Presskit</h3>
+        <p class="muted" style="max-width:720px">Logos, screenshots, trailers. You can reach out down below.</p>
+        <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px">
+          <a class="btn-outline" href="https://drive.google.com/drive/folders/1UqGm0mVITmyzYDnbr88lZ6K7hy26Ej5d?usp=sharing">Homeless Life Simulator</a>
+        <!--<a class="btn-outline pink" href="#">Request Review Key</a>-->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="socials">
+        <a class="glass blur social" href="https://discord.gg/rW8GRqfwRN" aria-label="Discord">
+          <span class="icon" aria-hidden="true">💬</span>
+          <span>Discord</span>
+        <!--</a>
+          <a class="glass blur social" href="#" aria-label="Twitter">
+          <span class="icon" aria-hidden="true">𝕏</span>
+          <span>Twitter</span>
+        </a>-->
+        <a class="glass blur social" href="mailto:contact@bahamutgames.info" aria-label="Email">
+          <span class="icon" aria-hidden="true">✉</span>
+          <span>Email</span>
+        </a>
+      </div>
+      <p style="text-align:center; color:var(--muted2); font-size:12px; margin-top:24px">© <span id="year"></span> Bahamut Games. All rights reserved.</p>
+    </div>
+  </section>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Particles background
+    (function(){
+      const c = document.getElementById('particles');
+      const ctx = c.getContext('2d');
+      let w,h,RAF, DPR = Math.min(window.devicePixelRatio||1,2);
+      const N = 70;
+      const P = Array.from({length:N},()=>({
+        x:Math.random(), y:Math.random(), vx:(Math.random()-0.5)*0.0007, vy:(Math.random()-0.5)*0.0007, hue:180+Math.floor(Math.random()*180)
+      }));
+      function size(){ w=c.clientWidth=window.innerWidth; h=c.clientHeight=window.innerHeight; c.width=w*DPR; c.height=h*DPR; ctx.setTransform(DPR,0,0,DPR,0,0) }
+      size(); window.addEventListener('resize', size);
+      function draw(){
+        ctx.clearRect(0,0,w,h);
+        ctx.globalAlpha=0.15; ctx.strokeStyle='#1b1f2a';
+        for(let i=0;i<w;i+=64){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,h);ctx.stroke()}
+        for(let j=0;j<h;j+=64){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(w,j);ctx.stroke()}
+        P.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>1)p.vx*=-1; if(p.y<0||p.y>1)p.vy*=-1; const x=p.x*w,y=p.y*h; const g=ctx.createRadialGradient(x,y,0,x,y,120); g.addColorStop(0,`hsla(${p.hue},90%,60%,.18)`); g.addColorStop(1,'transparent'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,120,0,Math.PI*2); ctx.fill(); });
+        ctx.globalAlpha=0.2; ctx.lineWidth=1; ctx.strokeStyle='rgba(0,255,255,.25)';
+        for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const a=P[i],b=P[j]; const dx=(a.x-b.x)*w, dy=(a.y-b.y)*h; const d=Math.hypot(dx,dy); if(d<140){ctx.beginPath(); ctx.moveTo(a.x*w,a.y*h); ctx.lineTo(b.x*w,b.y*h); ctx.stroke();}}
+        ctx.globalAlpha=1; RAF=requestAnimationFrame(draw);
+      }
+      const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if(!mql.matches){ draw(); }
+    })();
+
+    // Games data + card DOM build
+    const games=[
+      {title:"Homeless Life Simulator", cover:"images/hls.png", tags:[], steam:'https://store.steampowered.com/app/3845420/Homeless_Experience_Simulator/', presskit:'#'},
+      {title:"Fisher Idle", cover:"images/fisherIdle.jpg", tags:[], steam:'https://store.steampowered.com/app/3449840/Fisher_Idle/', presskit:'#'},
+      {title:"Game Store Simulator", cover:"images/gss.jpg", tags:[], steam:'https://store.steampowered.com/app/2598930/Game_Store_Simulator/', presskit:'#'},
+      {title:"Only One Sword", cover:"images/oneSword.jpg", tags:[], steam:'https://store.steampowered.com/app/3111570/Only_One_Sword/', presskit:'#'}
+    ];
+    const grid=document.getElementById('gameGrid');
+    games.forEach(g=>{
+      const card=document.createElement('div'); card.className='card glass blur'; card.tabIndex=0;
+      card.innerHTML=`
+        <div class="media">
+          <img src="${g.cover}" alt="${g.title}">
+          <div class="grad"></div>
+          <div class="tags">${g.tags.map(t=>`<span class='tag'>${t}</span>`).join('')}</div>
+        </div>
+        <div class="body">
+          <h3>${g.title}</h3>
+          <div class="actions">
+            <a class="btn-outline" href="${g.steam}">Play on Steam</a>
+          
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+
+    // Tilt interaction
+    function bindTilt(el){
+      const rect=()=>el.getBoundingClientRect();
+      function onMove(e){ const r=rect(); const px=(e.clientX - r.left)/r.width; const py=(e.clientY - r.top)/r.height; const rx=(py-0.5)*8; const ry=(0.5-px)*10; el.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`; el.style.boxShadow='0 12px 40px rgba(0,230,255,.12), 0 0 0 1px rgba(255,255,255,.05)'; }
+      function onLeave(){ el.style.transform='perspective(900px) rotateX(0) rotateY(0)'; el.style.boxShadow='0 6px 24px rgba(0,0,0,.4)'; }
+      el.addEventListener('mousemove', onMove); el.addEventListener('mouseleave', onLeave); el.addEventListener('blur', onLeave);
+    }
+    document.querySelectorAll('.card').forEach(bindTilt);
+  </script>
+</body>
+</html>
