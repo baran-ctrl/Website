@@ -3,248 +3,249 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bahamut — Futuristic Game Studio</title>
-  <meta name="description" content="Fast paced game maker" />
-  <style>
-    :root{
-      --bg0:#000; --bg1:#05070c; --bg2:#0b1020; --glass:rgba(255,255,255,.06);
-      --txt:#fff; --muted:rgba(255,255,255,.65); --muted2:rgba(255,255,255,.45);
-      --cyan:#00e6ff; --mag:#ff2fb3; --org:#ff8a00; --line:#101521;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0; font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial; color:var(--txt); background:linear-gradient(180deg,var(--bg2),var(--bg1) 60%,var(--bg0)) fixed;}
-    a{color:inherit; text-decoration:none}
-    .container{width:100%; max-width:1200px; margin:0 auto; padding:0 16px}
-    .blur{backdrop-filter:saturate(120%) blur(12px)}
-    .glass{background:var(--glass); border:1px solid rgba(255,255,255,.1); border-radius:16px}
-    .btn{position:relative; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; border-radius:16px; font-weight:600; overflow:hidden}
-    .btn > span.bg{position:absolute; inset:0; opacity:.85; background:linear-gradient(90deg,var(--cyan),var(--mag),var(--org));}
-    .btn > span.in{position:absolute; inset:2px; border-radius:14px; background:rgba(0,0,0,.55)}
-    .btn > span.tx{position:relative}
-    .grid{display:grid; gap:24px}
-    .g-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-    .g-4{grid-template-columns:repeat(4,minmax(0,1fr))}
-    @media (max-width:1024px){.g-4{grid-template-columns:repeat(3,minmax(0,1fr))}}
-    @media (max-width:768px){.g-3,.g-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media (max-width:520px){.g-3,.g-4{grid-template-columns:1fr}}
+  <title>Bahamut Games — Indie Simulation Game Studio</title>
+  <meta name="description" content="Bahamut Games is an indie studio crafting creative simulation games. Collect our titles like rare cards and play them on Steam." />
+  <meta name="theme-color" content="#0e1430" />
 
-    /* Sticky nav */
-    .nav{position:fixed; inset-inline:0; top:0; z-index:40}
-    .nav-inner{margin-top:16px; display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-radius:16px}
-    .brand{font-weight:800; letter-spacing:.22em; font-size:12px; opacity:.9}
-    .nav-links{display:flex; gap:24px}
-    .nav-links a{margin:0 10px; position:relative; font-size:14px; color:rgba(255,255,255,.8)}
-    .nav-links a:hover{color:var(--txt)}
-    .nav-links a::after{content:""; position:absolute; left:0; right:auto; bottom:-6px; height:1px; width:0; background:linear-gradient(90deg,var(--cyan),var(--mag),var(--org)); transition:width .25s}
-    .nav-links a:hover::after{width:100%}
+  <!-- Open Graph -->
+  <meta property="og:title" content="Bahamut Games" />
+  <meta property="og:description" content="Indie studio crafting creative simulation games." />
+  <meta property="og:image" content="images/bahamutLogo.png" />
+  <meta property="og:type" content="website" />
 
-    /* Sections */
-    section{position:relative; padding:80px 0}
-    .hero{min-height:92vh; display:grid; place-items:center; overflow:hidden}
-    /* New neutral futuristic key art + filters */
-    .hero .keyart{position:absolute; inset:0;
-      background:url('https://images.unsplash.com/photo-1509644851169-2acc08aa25b8?q=80&w=1920&auto=format&fit=crop') center 35%/cover no-repeat;
-      filter:brightness(.38) saturate(1.05) blur(1.5px);
-    }
-    .hero .fade{position:absolute; inset:0;
-       background: linear-gradient(180deg, rgba(0,0,0,.0),
-                                       rgba(0,0,0,.0) 90%,
-                                       rgba(0,0,0,.0));
-      mix-blend-mode:multiply;
-    }
-    .neon-bg{position:absolute; inset:0; background:
-      radial-gradient(1200px 600px at 20% -10%, rgba(0,230,255,.18), transparent),
-      radial-gradient(1000px 600px at 80% -10%, rgba(255,47,179,.16), transparent);
-      z-index:-1}
-    h1{font-size:clamp(40px,6vw,84px); margin:0; text-align:center; text-shadow:0 0 26px rgba(0,230,255,.4)}
-    p.lead{max-width:720px; margin:16px auto 0; color:var(--muted)}
-    .hero-cta{margin-top:32px; display:flex; flex-wrap:wrap; gap:16px; justify-content:center}
-
-    /* Fine line divider pattern */
-    .fine-lines{display:none} /* hide placeholders causing banding */
-
-    /* Cards */
-    .cards{margin-top:40px}
-    .card{position:relative; border-radius:18px; overflow:hidden; transform-style:preserve-3d; transition:transform .2s ease, box-shadow .2s ease}
-    .card:before{content:""; position:absolute; inset:0; border-radius:18px; border:1px solid rgba(255,255,255,.1); pointer-events:none}
-    .card .media{position:relative; aspect-ratio:25/12; overflow:hidden}
-    .card img{width:100%; height:100%; object-fit:cover; opacity:.9; display:block}
-    .card .grad{position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.75),rgba(0,0,0,.2),transparent)}
-    .card .tags{position:absolute; top:10px; right:10px; display:flex; gap:8px}
-    .tag{font-size:10px; text-transform:uppercase; letter-spacing:.1em; padding:4px 8px; border-radius:999px; background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.8)}
-    .card .body{padding:16px}
-    .card h3{margin:0; font-size:18px; text-shadow:0 0 8px rgba(0,230,255,.35)}
-    .card .actions{margin-top:12px; display:flex; gap:10px}
-    .btn-outline{padding:8px 12px; border-radius:12px; font-size:14px; border:1px solid rgba(0,230,255,.4); color:#baf7ff; background:rgba(0,230,255,.08)}
-    .btn-outline.pink{border-color:rgba(255,47,179,.4); color:#ffd0ef; background:rgba(255,47,179,.08)}
-    .card:hover{box-shadow:0 14px 44px rgba(0,230,255,.18), 0 0 0 1px rgba(255,255,255,.06)}
-
-    /* Presskit block */
-    .presskit .box{padding:28px}
-
-    /* Contact */
-    .socials{display:grid; gap:16px; grid-template-columns:repeat(2,1fr)}
-    @media (max-width:640px){.socials{grid-template-columns:1fr}}
-    .social{display:flex; align-items:center; justify-content:center; gap:12px; padding:22px; border-radius:16px}
-    .icon{width:20px; height:20px; display:inline-block}
-
-    /* Particle canvas */
-    #particles{position:fixed; inset:0; z-index:-2}
-
-    /* Section headings */
-    .h2{font-size:28px; font-weight:700; text-align:center}
-    .muted{color:var(--muted)}
-
-    /* Helper */
-    .hidden-sm{display:block}
-    @media (max-width:768px){.hidden-sm{display:none}}
-  </style>
+  <link rel="icon" type="image/png" href="images/bahamutLogo.png" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preload" as="image" href="images/hls.png" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <canvas id="particles"></canvas>
+  <!-- Loading veil -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-dragon">
+      <img src="images/dragonHeadLogo.png" alt="Bahamut Games" width="86" height="98" />
+    </div>
+    <div class="loader-bar"><span></span></div>
+    <p class="loader-text">SUMMONING DRAGON…</p>
+  </div>
 
-  <!-- Neon background wash -->
-  <div class="neon-bg"></div>
+  <!-- Animated playful background -->
+  <div class="bg-sky" aria-hidden="true">
+    <div class="sky-layer sky-a"></div>
+    <div class="sky-layer sky-b"></div>
+    <div class="sky-grain"></div>
+    <canvas id="emberCanvas"></canvas>
+  </div>
+
+  <!-- Floating game-dev clutter: pads, sticks, cables, code, coins -->
+  <div class="game-bits" id="gameBits" aria-hidden="true">
+    <svg class="cable cable-1" viewBox="0 0 600 120" preserveAspectRatio="none"><path d="M0 64 C110 6 190 116 300 60 S520 8 600 72" /></svg>
+    <svg class="cable cable-2" viewBox="0 0 600 120" preserveAspectRatio="none"><path d="M0 36 C120 104 220 -6 350 72 S540 120 600 38" /></svg>
+    <svg class="cable cable-3" viewBox="0 0 600 120" preserveAspectRatio="none"><path d="M0 80 C140 30 240 120 360 56 S520 96 600 50" /></svg>
+
+    <span class="bit f1" style="left:7%;top:20%;--d:9s;--delay:-1s;color:#9be7ff"><svg class="ic" width="50" height="50"><use href="#ic-pad" /></svg></span>
+    <span class="bit f2" style="left:86%;top:16%;--d:11s;--delay:-3s;color:#ff9bd0"><svg class="ic" width="42" height="42"><use href="#ic-stick" /></svg></span>
+    <span class="bit f3" style="left:78%;top:64%;--d:8.5s;--delay:-2s;color:#ffd98a"><svg class="ic" width="40" height="40"><use href="#ic-coin" /></svg></span>
+    <span class="bit f1" style="left:14%;top:70%;--d:10.5s;--delay:-4s;color:#bda7ff"><svg class="ic" width="46" height="46"><use href="#ic-dpad" /></svg></span>
+    <span class="bit f2" style="left:46%;top:12%;--d:9.5s;--delay:-1.5s;color:#9bffd0"><svg class="ic" width="38" height="38"><use href="#ic-ab" /></svg></span>
+    <span class="bit f3" style="left:60%;top:80%;--d:12s;--delay:-5s;color:#9be7ff"><svg class="ic" width="44" height="44"><use href="#ic-code" /></svg></span>
+    <span class="bit f1" style="left:30%;top:42%;--d:9s;--delay:-2.5s;color:#ff9bd0"><svg class="ic" width="34" height="34"><use href="#ic-heart" /></svg></span>
+    <span class="bit f2" style="left:90%;top:46%;--d:10s;--delay:-3.5s;color:#ffd98a"><svg class="ic" width="40" height="40"><use href="#ic-bolt" /></svg></span>
+    <span class="bit f3" style="left:4%;top:48%;--d:11.5s;--delay:-0.5s;color:#9bffd0"><svg class="ic" width="42" height="42"><use href="#ic-pad" /></svg></span>
+    <span class="bit f1" style="left:68%;top:34%;--d:8s;--delay:-4.5s;color:#bda7ff"><svg class="ic" width="32" height="32"><use href="#ic-coin" /></svg></span>
+    <span class="bit f2" style="left:22%;top:88%;--d:10s;--delay:-2s;color:#9be7ff"><svg class="ic" width="38" height="38"><use href="#ic-stick" /></svg></span>
+    <span class="bit f3" style="left:52%;top:58%;--d:9.5s;--delay:-5.5s;color:#ff9bd0"><svg class="ic" width="30" height="30"><use href="#ic-dpad" /></svg></span>
+  </div>
+
+  <!-- Trailing red eye-beams (Unity line-renderer style) -->
+  <canvas id="eyeTrail" aria-hidden="true"></canvas>
+
+  <!-- Flying dragon mascot (follows scroll) — faithful to the logo head -->
+  <div id="dragonStage" aria-hidden="true">
+    <div id="dragon" class="dragon">
+      <span class="dragon-aura" aria-hidden="true"></span>
+      <img class="dragon-img" src="images/dragonHeadLogo.png" alt="" width="120" height="136" />
+      <div class="fire" id="dragonFire">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <span class="d-eye d-eye-a" aria-hidden="true"></span>
+      <span class="d-eye d-eye-b" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <!-- Spaceship that follows the cursor (swing physics + click recoil + bullets) -->
+  <div id="stickStage" aria-hidden="true">
+    <svg id="stick" class="stick" viewBox="0 0 80 140" width="80" height="140" aria-hidden="true">
+      <g class="swing">
+        <g class="char">
+          <!-- thruster flame (behind hull) -->
+          <g class="ship-flame">
+            <path class="f-out" d="M31 102 L40 134 L49 102 Z" />
+            <path class="f-in" d="M35 102 L40 124 L45 102 Z" />
+          </g>
+          <!-- side fins -->
+          <path class="ship-fin" d="M26 84 L11 106 L26 101 Z" />
+          <path class="ship-fin" d="M54 84 L69 106 L54 101 Z" />
+          <!-- hull -->
+          <path class="ship-body" d="M40 14 C50 26 54 44 54 72 C54 88 50 98 48 104 L32 104 C30 98 26 88 26 72 C26 44 30 26 40 14 Z" />
+          <!-- cockpit -->
+          <circle class="ship-cockpit" cx="40" cy="54" r="9" />
+          <circle class="ship-glow" cx="37" cy="51" r="3" />
+        </g>
+      </g>
+    </svg>
+  </div>
 
   <!-- NAV -->
-  <header class="nav">
-    <div class="container">
-      <nav class="nav-inner glass blur">
-        <a class="brand" href="#home">BAHAMUT GAMES</a>
-        <div class="nav-links hidden-sm">
-          <a href="#home">Home</a>
-          <a href="#games">Games</a>
-          <a href="#press">Presskit</a>
-          <a href="#contact">Contact</a>
-        </div>
-        <a class="btn" href="#press" aria-label="Presskit">
-          <span class="bg"></span><span class="in"></span><span class="tx">Presskit</span>
-        </a>
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#home" aria-label="Bahamut Games home">
+        <img src="images/bahamutLogo.png" alt="Bahamut Games" class="brand-logo" />
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#home">Home</a>
+        <a href="#games">Games</a>
+        <a href="#press">Presskit</a>
+        <a href="#contact">Contact</a>
       </nav>
+      <div class="nav-actions">
+        <button id="soundToggle" class="sound-btn" type="button" aria-pressed="false" aria-label="Toggle sound effects">
+          <span class="sound-ico" aria-hidden="true">🔇</span>
+          <span class="sound-label">SFX</span>
+        </button>
+        <a class="btn btn-hero" href="#games"><span>Play Now</span></a>
+      </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section id="home" class="hero">
-    <div class="keyart" aria-hidden="true"></div>
-    <div class="fade" aria-hidden="true"></div>
-    <div class="container" style="text-align:center; padding-top:120px">
-      <h1>Bahamut Games</h1>
-      <p class="lead">Cinematic simulation and management games designed for immersion and clarity.</p>
-      <div class="hero-cta">
-        <a class="btn" href="#games"><span class="bg"></span><span class="in"></span><span class="tx">See Games</span></a>
+  <main>
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="hero-orbs" aria-hidden="true">
+        <span class="orb orb-1"></span>
+        <span class="orb orb-2"><svg class="orb-icon" width="78" height="78"><use href="#ic-pad" /></svg></span>
+        <span class="orb orb-3"><svg class="orb-icon" width="50" height="50"><use href="#ic-dpad" /></svg></span>
       </div>
-    </div>
-  </section>
-
-  <!-- GAMES -->
-  <section id="games">
-    <div class="container">
-      <h2 class="h2">Featured Games</h2>
-      <p class="muted" style="text-align:center; margin-top:8px">High‑end, performant, and player‑first experiences.</p>
-      <div class="grid g-4 cards" id="gameGrid"></div>
-    </div>
-  </section>
-
-  <!-- PRESSKIT -->
-  <section id="press" class="presskit">
-    <div class="container">
-      <div class="glass blur box">
-        <h3 style="margin:0 0 8px 0; font-size:24px">Presskit</h3>
-        <p class="muted" style="max-width:720px">Logos, screenshots, trailers. You can reach out down below.</p>
-        <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px">
-          <a class="btn-outline" href="https://drive.google.com/drive/folders/1UqGm0mVITmyzYDnbr88lZ6K7hy26Ej5d?usp=sharing">Homeless Life Simulator</a>
-        <!--<a class="btn-outline pink" href="#">Request Review Key</a>-->
+      <div class="container hero-inner">
+        <p class="eyebrow reveal">INDIE • SIMULATION • CREATIVE</p>
+        <h1 class="hero-title">
+          <span class="line reveal">BAHAMUT</span>
+          <span class="line reveal accent">GAMES</span>
+          <span class="title-holo" aria-hidden="true"></span>
+          <span class="title-glare" aria-hidden="true"></span>
+        </h1>
+        <p class="lead reveal">We forge cozy, chaotic, and creative simulation games. Scroll on — our ancient dragon will summon the collection, card by card.</p>
+        <div class="hero-cta reveal">
+          <a class="btn btn-hero" href="#games"><span>See the Cards</span></a>
+          <a class="btn btn-ghost" href="https://store.steampowered.com/app/3845420/Homeless_Experience_Simulator/" target="_blank" rel="noopener"><span>Featured on Steam</span></a>
         </div>
       </div>
-    </div>
-  </section>
+      <a class="scroll-hint" href="#games" aria-label="Scroll to games">
+        <span class="mouse"><span class="wheel"></span></span>
+        <span class="scroll-text">SCROLL</span>
+      </a>
+    </section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="container">
-      <div class="socials">
-        <a class="glass blur social" href="https://discord.gg/rW8GRqfwRN" aria-label="Discord">
-          <span class="icon" aria-hidden="true">💬</span>
-          <span>Discord</span>
-        <!--</a>
-          <a class="glass blur social" href="#" aria-label="Twitter">
-          <span class="icon" aria-hidden="true">𝕏</span>
-          <span>Twitter</span>
-        </a>-->
-        <a class="glass blur social" href="mailto:contact@bahamutgames.info" aria-label="Email">
-          <span class="icon" aria-hidden="true">✉</span>
-          <span>Email</span>
-        </a>
+    <!-- GAMES -->
+    <section id="games" class="games">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="kicker">THE COLLECTION</p>
+          <h2 class="section-title">Gotta Play 'Em All</h2>
+          <p class="section-sub">Each title is a card in our deck. Hover to feel the holo shine, then jump straight to Steam.</p>
+        </header>
+        <div class="deck" id="deck"><!-- cards injected by JS --></div>
       </div>
-      <p style="text-align:center; color:var(--muted2); font-size:12px; margin-top:24px">© <span id="year"></span> Bahamut Games. All rights reserved.</p>
-    </div>
-  </section>
+    </section>
 
-  <script>
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Particles background
-    (function(){
-      const c = document.getElementById('particles');
-      const ctx = c.getContext('2d');
-      let w,h,RAF, DPR = Math.min(window.devicePixelRatio||1,2);
-      const N = 70;
-      const P = Array.from({length:N},()=>({
-        x:Math.random(), y:Math.random(), vx:(Math.random()-0.5)*0.0007, vy:(Math.random()-0.5)*0.0007, hue:180+Math.floor(Math.random()*180)
-      }));
-      function size(){ w=c.clientWidth=window.innerWidth; h=c.clientHeight=window.innerHeight; c.width=w*DPR; c.height=h*DPR; ctx.setTransform(DPR,0,0,DPR,0,0) }
-      size(); window.addEventListener('resize', size);
-      function draw(){
-        ctx.clearRect(0,0,w,h);
-        ctx.globalAlpha=0.15; ctx.strokeStyle='#1b1f2a';
-        for(let i=0;i<w;i+=64){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,h);ctx.stroke()}
-        for(let j=0;j<h;j+=64){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(w,j);ctx.stroke()}
-        P.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>1)p.vx*=-1; if(p.y<0||p.y>1)p.vy*=-1; const x=p.x*w,y=p.y*h; const g=ctx.createRadialGradient(x,y,0,x,y,120); g.addColorStop(0,`hsla(${p.hue},90%,60%,.18)`); g.addColorStop(1,'transparent'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,120,0,Math.PI*2); ctx.fill(); });
-        ctx.globalAlpha=0.2; ctx.lineWidth=1; ctx.strokeStyle='rgba(0,255,255,.25)';
-        for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const a=P[i],b=P[j]; const dx=(a.x-b.x)*w, dy=(a.y-b.y)*h; const d=Math.hypot(dx,dy); if(d<140){ctx.beginPath(); ctx.moveTo(a.x*w,a.y*h); ctx.lineTo(b.x*w,b.y*h); ctx.stroke();}}
-        ctx.globalAlpha=1; RAF=requestAnimationFrame(draw);
-      }
-      const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
-      if(!mql.matches){ draw(); }
-    })();
-
-    // Games data + card DOM build
-    const games=[
-      {title:"Homeless Life Simulator", cover:"images/hls.png", tags:[], steam:'https://store.steampowered.com/app/3845420/Homeless_Experience_Simulator/', presskit:'#'},
-      {title:"Fisher Idle", cover:"images/fisherIdle.jpg", tags:[], steam:'https://store.steampowered.com/app/3449840/Fisher_Idle/', presskit:'#'},
-      {title:"Game Store Simulator", cover:"images/gss.jpg", tags:[], steam:'https://store.steampowered.com/app/2598930/Game_Store_Simulator/', presskit:'#'},
-      {title:"Only One Sword", cover:"images/oneSword.jpg", tags:[], steam:'https://store.steampowered.com/app/3111570/Only_One_Sword/', presskit:'#'}
-    ];
-    const grid=document.getElementById('gameGrid');
-    games.forEach(g=>{
-      const card=document.createElement('div'); card.className='card glass blur'; card.tabIndex=0;
-      card.innerHTML=`
-        <div class="media">
-          <img src="${g.cover}" alt="${g.title}">
-          <div class="grad"></div>
-          <div class="tags">${g.tags.map(t=>`<span class='tag'>${t}</span>`).join('')}</div>
-        </div>
-        <div class="body">
-          <h3>${g.title}</h3>
-          <div class="actions">
-            <a class="btn-outline" href="${g.steam}">Play on Steam</a>
-          
+    <!-- PRESSKIT -->
+    <section id="press" class="press">
+      <div class="container">
+        <div class="chest reveal" id="chest">
+          <div class="chest-glow" aria-hidden="true"></div>
+          <div class="chest-content">
+            <p class="kicker">LOOT DROP</p>
+            <h2 class="section-title">Presskit</h2>
+            <p class="section-sub">Logos, screenshots and trailers for press and creators. Grab the kit below.</p>
+            <div class="press-links">
+              <a class="btn btn-loot" href="https://drive.google.com/drive/folders/1UqGm0mVITmyzYDnbr88lZ6K7hy26Ej5d?usp=sharing" target="_blank" rel="noopener">
+                <span>Homeless Life Simulator — Presskit</span>
+              </a>
+            </div>
           </div>
-        </div>`;
-      grid.appendChild(card);
-    });
+        </div>
+      </div>
+    </section>
 
-    // Tilt interaction
-    function bindTilt(el){
-      const rect=()=>el.getBoundingClientRect();
-      function onMove(e){ const r=rect(); const px=(e.clientX - r.left)/r.width; const py=(e.clientY - r.top)/r.height; const rx=(py-0.5)*8; const ry=(0.5-px)*10; el.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`; el.style.boxShadow='0 12px 40px rgba(0,230,255,.12), 0 0 0 1px rgba(255,255,255,.05)'; }
-      function onLeave(){ el.style.transform='perspective(900px) rotateX(0) rotateY(0)'; el.style.boxShadow='0 6px 24px rgba(0,0,0,.4)'; }
-      el.addEventListener('mousemove', onMove); el.addEventListener('mouseleave', onLeave); el.addEventListener('blur', onLeave);
-    }
-    document.querySelectorAll('.card').forEach(bindTilt);
-  </script>
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="kicker">JOIN THE PARTY</p>
+          <h2 class="section-title">Say Hello</h2>
+          <p class="section-sub">Come hang out with the studio or drop us a line.</p>
+        </header>
+        <div class="socials">
+          <a class="social reveal" href="https://discord.gg/rW8GRqfwRN" target="_blank" rel="noopener">
+            <span class="social-ico">💬</span>
+            <span class="social-meta">
+              <strong>Discord</strong>
+              <small>Join the community</small>
+            </span>
+          </a>
+          <a class="social reveal" href="mailto:contact@bahamutgames.info">
+            <span class="social-ico">✉️</span>
+            <span class="social-meta">
+              <strong>Email</strong>
+              <small>contact@bahamutgames.info</small>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <img src="images/bahamutLogo.png" alt="Bahamut Games" class="footer-logo" />
+      <p class="footer-copy">© <span id="year"></span> Bahamut Games. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Icon sprite for floating game-dev bits -->
+  <svg width="0" height="0" class="svg-sprite" aria-hidden="true">
+    <symbol id="ic-pad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2.5" y="7.5" width="19" height="9.5" rx="4.7" />
+      <line x1="7" y1="10.5" x2="7" y2="13.5" /><line x1="5.5" y1="12" x2="8.5" y2="12" />
+      <circle cx="16" cy="11" r="1.1" /><circle cx="18.3" cy="13.3" r="1.1" />
+    </symbol>
+    <symbol id="ic-dpad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+      <path d="M9.5 4.5h5v5h5v5h-5v5h-5v-5h-5v-5h5Z" />
+    </symbol>
+    <symbol id="ic-stick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="6" r="3" /><line x1="12" y1="9" x2="12" y2="15" /><path d="M6 20c0-3.2 2.4-4.5 6-4.5s6 1.3 6 4.5" />
+    </symbol>
+    <symbol id="ic-ab" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="8" cy="12" r="4" /><circle cx="17" cy="12" r="4" />
+    </symbol>
+    <symbol id="ic-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+      <path d="M12 20S4 14 4 9a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-8 11-8 11Z" />
+    </symbol>
+    <symbol id="ic-coin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="12" cy="12" r="8" /><circle cx="12" cy="12" r="4" />
+    </symbol>
+    <symbol id="ic-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 8l-4 4 4 4M15 8l4 4-4 4" />
+    </symbol>
+    <symbol id="ic-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+      <path d="M13 3 5 14h6l-1 7 8-11h-6Z" />
+    </symbol>
+  </svg>
+
+  <!-- Libraries (CDN, no build step) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>
